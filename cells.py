@@ -77,13 +77,14 @@ def dfs_algo(cell, grid):
     return neighbor
 
 
-def generate_maze(gric, start):
+def generate_maze(grid, start):
     stack = []
 
     start.visited =  True
     stack.append(start)
 
     while stack:
+        # print(f"Stack: ",[(c.x, c.y)for c in stack])
         current = stack[-1]
 
         next_cell = dfs_algo(current, grid)
@@ -99,7 +100,7 @@ for row in grid:
 
 cell = grid[0][0]
 neighbors = grid[0][1]
-neighbors = get_neighbors(cell, grid)
+# neighbors = get_neighbors(cell, grid)
 # for dir, nei in neighbors.items():
 #     print(f"{dir}: ({nei.x}, {nei.y})")
 
@@ -110,9 +111,9 @@ neighbors = get_neighbors(cell, grid)
 
 start = grid[0][0]
 generate_maze(grid, start)
-print()
+# print()
 
-for row in grid:
-    for cell in row:
-        print(f"({cell.x}, {cell.y}: {cell.visited})  {cell.walls}")
+# for row in grid:
+#     for cell in row:
+#         print(f"({cell.x}, {cell.y}: {cell.visited})  {cell.walls}")
 
