@@ -1,3 +1,5 @@
+import random
+
 class Cell:
     def __init__(self, x: int, y: int):
         self.x = x
@@ -57,19 +59,60 @@ def get_unvisted_neighbors(cell, grid):
         neighbor = neighbors[dir]
         if not neighbor.visited:
             unvisted_neighbors[dir] = neighbor
+
     return unvisted_neighbors
+
+def dfs_algo(cell, grid):
+    unvisited = get_unvisted_neighbors(cell, grid)
+
+    if not unvisited:
+        return None
+
+    direction = random.choice(list(unvisited.keys()))
+    neighbor = unvisited[direction]
+
+    remove_wall(cell, neighbor, direction)
+    neighbor.visited = True
+
+    return neighbor
+
+
+def generate_maze(gric, start):
+    stack = []
+
+    start.visited =  True
+    stack.append(start)
+
+    while stack:
+        current = stack[-1]
+
+        next_cell = dfs_algo(current, grid)
+        if next_cell:
+            stack.append(next_cell)
+        else:
+            stack.pop()
+
 
 grid = create_grid(3,3)
 for row in grid:
     print([f"({c.x}, {c.y})" for c in row])
 
-
 cell = grid[0][0]
+neighbors = grid[0][1]
 neighbors = get_neighbors(cell, grid)
-
 # for dir, nei in neighbors.items():
 #     print(f"{dir}: ({nei.x}, {nei.y})")
 
-unvisited = get_unvisted_neighbors(cell, grid)
-for dir, nei in unvisited.items():
-    print(f"{dir}: ({nei.x}, {nei.y})")
+
+# unvisited = get_unvisted_neighbors(cell, grid)
+# for dir, nei in unvisited.items():
+#     print(f"{dir}: ({nei.x}, {nei.y})")
+
+start = grid[0][0]
+generate_maze(grid, start)
+print()
+
+for row in grid:
+    for cell in row:
+        print(f"({cell.x}, {cell.y}: {cell.visited})  {cell.walls}")
+
