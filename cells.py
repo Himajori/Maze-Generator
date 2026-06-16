@@ -93,6 +93,14 @@ def generate_maze(grid, start):
         else:
             stack.pop()
 
+def all_cells_visited(grid):
+    for row in grid:
+        for cell in row:
+            if not cell.visited:
+                return False
+    return True
+
+ 
 
 grid = create_grid(3,3)
 for row in grid:
@@ -100,20 +108,13 @@ for row in grid:
 
 cell = grid[0][0]
 neighbors = grid[0][1]
-# neighbors = get_neighbors(cell, grid)
-# for dir, nei in neighbors.items():
-#     print(f"{dir}: ({nei.x}, {nei.y})")
-
-
-# unvisited = get_unvisted_neighbors(cell, grid)
-# for dir, nei in unvisited.items():
-#     print(f"{dir}: ({nei.x}, {nei.y})")
 
 start = grid[0][0]
+check = all_cells_visited(grid)
+print("Check: ", check)
 generate_maze(grid, start)
-# print()
-
-# for row in grid:
-#     for cell in row:
-#         print(f"({cell.x}, {cell.y}: {cell.visited})  {cell.walls}")
+print()
+start.visited = False
+check = all_cells_visited(grid)
+print("Check: ", check)
 
