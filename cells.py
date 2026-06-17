@@ -6,7 +6,7 @@ class Cell:
         self.y = y
         self.visited = False
         self.walls = {
-            "N": True,
+             "N": True,
             "E": True,
             "S": True,
             "W": True
@@ -100,7 +100,31 @@ def all_cells_visited(grid):
                 return False
     return True
 
- 
+
+def has_3x3_open(grid):
+    height = len(grid)
+    width = len(grid[0])
+
+    for y in range(height - 2):
+        for x in range(width - 2):
+            if is_3x3_open(grid, x, y):
+                return True
+    return False
+
+def is_3x3_open(grid, x, y):
+    for dy in range(3):
+        for dx in range(3):
+            cell = grid[dy + y][dx + x]
+
+            if dx < 2 and cell.walls["E"]:
+                return False
+            if dy < 2 and cell.walls["N"]:
+                return False
+    return True
+
+
+def is_fully_closed(cell):
+    return all(cell.walls.values())
 
 grid = create_grid(3,3)
 for row in grid:
@@ -110,11 +134,17 @@ cell = grid[0][0]
 neighbors = grid[0][1]
 
 start = grid[0][0]
-check = all_cells_visited(grid)
+check = is_fully_closed(cell)
 print("Check: ", check)
+# pattern_42(grid)
 generate_maze(grid, start)
 print()
-start.visited = False
-check = all_cells_visited(grid)
+check = is_fully_closed(cell)
 print("Check: ", check)
-
+cell.walls["E"] = True
+cell.walls["S"] = True
+cell.walls["W"] = True
+cell.walls["N"] = False
+print()
+check = is_fully_closed(cell)
+print("Check: ", check)
