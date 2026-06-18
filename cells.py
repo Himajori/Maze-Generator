@@ -126,7 +126,61 @@ def is_3x3_open(grid, x, y):
 def is_fully_closed(cell):
     return all(cell.walls.values())
 
-grid = create_grid(3,3)
+
+def close_cell(grid, x, y):
+    cell = grid[y][x]
+    cell.visited = True
+
+
+def draw_4(grid, x, y):
+    coords = [
+        (0, 0),
+        (0, 1),
+        (0, 2), (1, 2), (2, 2),
+                        (2, 3),
+                        (2, 4)
+    ]
+
+    for dx, dy in coords:
+        close_cell(grid, x + dx, y + dy)
+
+
+def draw_2(grid, x, y):
+    coords = [
+        (0, 0), (1, 0), (2,0),
+                        (2, 1),
+        (0, 2), (1, 2), (2, 2),
+        (0, 3),
+        (0, 4), (1, 4), (2, 4)                
+    ]
+
+    for dx, dy in coords:
+        close_cell(grid, x + dx, y + dy)
+
+
+def place_42_pattern(grid):
+    height = len(grid)
+    width = len(grid[0])
+
+    pattern_width = 7
+    pattern_height = 5
+
+    if width < 11 or height < 9:
+        print("Error: maze too small for 42 pattern")
+        return False
+    
+    start_x = (width - pattern_width) // 2
+    start_y = (height - pattern_height) // 2
+
+    draw_4(grid, start_x, start_y)
+    draw_2(grid, start_x + 4, start_y)
+
+    return True
+
+
+
+
+grid = create_grid(11,9)
 for row in grid:
     print([f"({c.x}, {c.y})" for c in row])
 
@@ -136,15 +190,8 @@ neighbors = grid[0][1]
 start = grid[0][0]
 check = is_fully_closed(cell)
 print("Check: ", check)
-# pattern_42(grid)
+place_42_pattern(grid)
 generate_maze(grid, start)
 print()
-check = is_fully_closed(cell)
-print("Check: ", check)
-cell.walls["E"] = True
-cell.walls["S"] = True
-cell.walls["W"] = True
-cell.walls["N"] = False
-print()
-check = is_fully_closed(cell)
-print("Check: ", check)
+if place_42_pattern(grid):
+    print("Is goood")
