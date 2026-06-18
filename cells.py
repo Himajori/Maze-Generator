@@ -178,20 +178,40 @@ def place_42_pattern(grid):
     return True
 
 
+WALL_BITS = {
+    "N": 1,
+    "E": 2,
+    "S": 4,
+    "W": 8
+}
+
+def encoded_cell(cell):
+    value = 0
+
+    for dir, bit in WALL_BITS.items():
+        if cell.walls[dir]:
+            value |= bit
+    
+    return value
 
 
-grid = create_grid(11,9)
+grid = create_grid(11, 9)
 for row in grid:
     print([f"({c.x}, {c.y})" for c in row])
 
 cell = grid[0][0]
-neighbors = grid[0][1]
-
+neighbor = grid[0][1]
+check_cell = grid[8][2]
 start = grid[0][0]
+
 check = is_fully_closed(cell)
 print("Check: ", check)
 place_42_pattern(grid)
 generate_maze(grid, start)
 print()
-if place_42_pattern(grid):
-    print("Is goood")
+# if place_42_pattern(grid):
+#     print("Is goood")
+
+value = encoded_cell(cell)
+print(cell.walls)
+print(value)
