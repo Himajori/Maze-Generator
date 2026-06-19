@@ -206,6 +206,24 @@ def encoded_grid(grid):
     
     return lines
 
+def write_maze(file, grid):
+    lines = encoded_grid(grid)
+    for line in lines:
+        file.write(line + "\n")
+
+
+def write_entry_exit_(file, entry, exit_):
+    file.write(f"{entry[0]}, {entry[1]}\n")
+    file.write(f"{exit_[0]}, {exit_[1]}\n")
+
+def write_output(filename, grid, entry, exit_, path):
+    with open(filename, "w") as file:
+        write_maze(file, grid)
+        file.write("\n")
+        write_entry_exit_(file, entry, exit_)
+        file.write("\n")
+        file.write(" ".join(path) + "\n")
+
 grid = create_grid(20, 15)
 for row in grid:
     print([f"({c.x}, {c.y})" for c in row])
@@ -226,5 +244,8 @@ print()
 # value = encoded_cell(cell)
 # print(cell.walls)
 # print(value)
-value = encoded_grid(grid)
-print(value)
+# value = encoded_grid(grid)
+# print(value)
+path = ["E", "S", "E", "E", "N", "E", "S", "W"]
+write_output("test.txt", grid, (0,0), (19,14), path)
+
