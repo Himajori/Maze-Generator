@@ -195,23 +195,36 @@ def encoded_cell(cell):
     return value
 
 
-grid = create_grid(11, 9)
+def encoded_grid(grid):
+    lines = []
+    for row in grid:
+        line = ""
+        for cell in row:
+            encoded = encoded_cell(cell)
+            line += format(encoded, "X")
+        lines.append(line)
+    
+    return lines
+
+grid = create_grid(20, 15)
 for row in grid:
     print([f"({c.x}, {c.y})" for c in row])
 
 cell = grid[0][0]
 neighbor = grid[0][1]
-check_cell = grid[8][2]
+# check_cell = grid[8][2]
 start = grid[0][0]
 
-check = is_fully_closed(cell)
-print("Check: ", check)
-place_42_pattern(grid)
+# check = is_fully_closed(cell)
+# print("Check: ", check)
+# place_42_pattern(grid)
 generate_maze(grid, start)
 print()
 # if place_42_pattern(grid):
 #     print("Is goood")
 
-value = encoded_cell(cell)
-print(cell.walls)
+# value = encoded_cell(cell)
+# print(cell.walls)
+# print(value)
+value = encoded_grid(grid)
 print(value)
