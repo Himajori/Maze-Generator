@@ -232,6 +232,14 @@ DIRECTION = {
     "W": (-1, 0)
 }
 
+def can_move(grid, x, y, direction):
+        cell = grid[y][x]
+
+        if cell.walls[direction]:
+            return False
+
+        return True
+
 
 def bfs_algo(grid, entry, exit_):
     queue = deque()
@@ -258,6 +266,28 @@ def bfs_algo(grid, entry, exit_):
                     queue.append((nx, ny))
     return None
 
+def reconstruct_path(parent, entry, exit_):
+    path = []
+    current = exit_
+
+    while current != entry:
+        prev, direction = parent[current]
+        path.append(direction)
+        current = prev
+
+    path.reverse()
+    return path
+
+
+def shortest_path(grid, entry, exit_):
+    parent = bfs_algo(grid , entry, exit_)
+
+    if parent is None:
+        return []
+    return  reconstruct_path(parent, entry, exit_)
+
+
+
 # grid = create_grid(20, 15)
 grid = create_grid(3, 3)
 for row in grid:
@@ -273,14 +303,11 @@ start = grid[0][0]
 # place_42_pattern(grid)
 generate_maze(grid, start)
 print()
-# if place_42_pattern(grid):
-#     print("Is goood")
 
-# value = encoded_cell(cell)
-# print(cell.walls)
-# print(value)
-# value = encoded_grid(grid)
-# print(value)
-path = ["E", "S", "E", "E", "N", "E", "S", "W"]
-write_output("test.txt", grid, (0,0), (19,14), path)
-
+# path = ["E", "S", "E", "E", "N", "E", "S", "W"]
+# write_output("test.txt", grid, (0,0), (19,14), path)
+# result = bfs_algo(grid, (0, 0), (2, 2))
+path = shortest_path(grid, (0, 0), (2, 2))
+print(path)
+# for k, v in result.items():
+#     print(f"{k}: {v}")
