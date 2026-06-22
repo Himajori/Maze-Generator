@@ -314,6 +314,25 @@ def path_to_coords(entry, path):
     return coords
 
 
+def break_random_walls(grid):
+    pro = 0.1
+    for row in grid:
+        for cell in row:
+
+            if is_fully_closed(cell):
+                continue
+            
+            for direction, (dx, dy) in DIRECTION.items():
+                nx, ny = cell.x + dx, cell.y + y
+
+                if 0 <= nx < len(grid[0]) and 0 <= nx < len(grid):
+                    neighbor = grid[ny][nx]
+
+                    if is_fully_closed(neighbor):
+                        continue
+                    if (cell.walls[direction] and random.random() < pro):
+                        remove_wall(cell, neighbor, direction)
+
 # grid = create_grid(20, 15)
 grid = create_grid(3, 3)
 for row in grid:
