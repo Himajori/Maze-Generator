@@ -1,4 +1,5 @@
 import random
+from collections import deque
 
 class Cell:
     def __init__(self, x: int, y: int):
@@ -224,7 +225,41 @@ def write_output(filename, grid, entry, exit_, path):
         file.write("\n")
         file.write(" ".join(path) + "\n")
 
-grid = create_grid(20, 15)
+DIRECTION = {
+    "N": (0, -1),
+    "E": (1, 0),
+    "S": (0, 1),
+    "W": (-1, 0)
+}
+
+
+def bfs_algo(grid, entry, exit_):
+    queue = deque()
+    visited = set()
+    parent = {}
+
+    queue.append(entry)
+    visited.add(entry)
+
+    while queue:
+        x, y = queue.popleft()
+
+        if (x, y) == exit_:
+            return parent
+    
+        for d in DIRECTION:
+            if can_move(grid, x, y, d):
+                dx, dy = DIRECTION[d]
+                nx, ny = x + dx, y + dy
+
+                if (nx, ny) not in visited:
+                    visited.add((nx, ny))
+                    parent[(nx, ny)] = ((x, y), d)
+                    queue.append((nx, ny))
+    return None
+
+# grid = create_grid(20, 15)
+grid = create_grid(3, 3)
 for row in grid:
     print([f"({c.x}, {c.y})" for c in row])
 
