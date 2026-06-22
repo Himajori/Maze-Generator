@@ -1,20 +1,21 @@
 import random
 from collections import deque
 
+
 class Cell:
     def __init__(self, x: int, y: int):
         self.x = x
         self.y = y
         self.visited = False
         self.walls = {
-             "N": True,
+            "N": True,
             "E": True,
             "S": True,
             "W": True
         }
 
 
-def create_grid(width: int, height:int):
+def create_grid(width: int, height: int):
     grid = []
 
     for y in range(height):
@@ -25,14 +26,15 @@ def create_grid(width: int, height:int):
 
     return grid
 
+
 def get_neighbors(cell, grid):
     neighbors = {}
     width = len(grid[0])
-    height= len(grid)
+    height = len(grid)
     x, y = cell.x, cell.y
     if y > 0:
         neighbors["N"] = grid[y - 1][x]
-    if x < width -1:
+    if x < width - 1:
         neighbors["E"] = grid[y][x + 1]
     if y < height - 1:
         neighbors["S"] = grid[y + 1][x]
@@ -41,6 +43,7 @@ def get_neighbors(cell, grid):
 
     return neighbors
 
+
 OPPOSITE = {
     "N": "S",
     "E": "W",
@@ -48,9 +51,11 @@ OPPOSITE = {
     "W": "E"
 }
 
+
 def remove_wall(cell, neighbor, direction):
     cell.walls[direction] = False
     neighbor.walls[OPPOSITE[direction]] = False
+
 
 def get_unvisted_neighbors(cell, grid):
     neighbors = get_neighbors(cell, grid)
@@ -62,6 +67,7 @@ def get_unvisted_neighbors(cell, grid):
             unvisted_neighbors[dir] = neighbor
 
     return unvisted_neighbors
+
 
 def dfs_algo(cell, grid):
     unvisited = get_unvisted_neighbors(cell, grid)
@@ -81,7 +87,7 @@ def dfs_algo(cell, grid):
 def generate_maze(grid, start):
     stack = []
 
-    start.visited =  True
+    start.visited = True
     stack.append(start)
 
     while stack:
@@ -93,6 +99,7 @@ def generate_maze(grid, start):
             stack.append(next_cell)
         else:
             stack.pop()
+
 
 def all_cells_visited(grid):
     for row in grid:
@@ -111,6 +118,7 @@ def has_3x3_open(grid):
             if is_3x3_open(grid, x, y):
                 return True
     return False
+
 
 def is_3x3_open(grid, x, y):
     for dy in range(3):
@@ -148,11 +156,11 @@ def draw_4(grid, x, y):
 
 def draw_2(grid, x, y):
     coords = [
-        (0, 0), (1, 0), (2,0),
+        (0, 0), (1, 0), (2, 0),
                         (2, 1),
         (0, 2), (1, 2), (2, 2),
         (0, 3),
-        (0, 4), (1, 4), (2, 4)                
+        (0, 4), (1, 4), (2, 4)
     ]
 
     for dx, dy in coords:
@@ -169,7 +177,7 @@ def place_42_pattern(grid):
     if width < 11 or height < 9:
         print("Error: maze too small for 42 pattern")
         return False
-    
+
     start_x = (width - pattern_width) // 2
     start_y = (height - pattern_height) // 2
 
@@ -186,13 +194,14 @@ WALL_BITS = {
     "W": 8
 }
 
+
 def encoded_cell(cell):
     value = 0
 
     for dir, bit in WALL_BITS.items():
         if cell.walls[dir]:
             value |= bit
-    
+
     return value
 
 
@@ -204,8 +213,9 @@ def encoded_grid(grid):
             encoded = encoded_cell(cell)
             line += format(encoded, "X")
         lines.append(line)
-    
+
     return lines
+
 
 def write_maze(file, grid):
     lines = encoded_grid(grid)
@@ -217,6 +227,7 @@ def write_entry_exit_(file, entry, exit_):
     file.write(f"{entry[0]}, {entry[1]}\n")
     file.write(f"{exit_[0]}, {exit_[1]}\n")
 
+
 def write_output(filename, grid, entry, exit_, path):
     with open(filename, "w") as file:
         write_maze(file, grid)
@@ -225,6 +236,7 @@ def write_output(filename, grid, entry, exit_, path):
         file.write("\n")
         file.write(" ".join(path) + "\n")
 
+
 DIRECTION = {
     "N": (0, -1),
     "E": (1, 0),
@@ -232,13 +244,14 @@ DIRECTION = {
     "W": (-1, 0)
 }
 
+
 def can_move(grid, x, y, direction):
-        cell = grid[y][x]
+    cell = grid[y][x]
 
-        if cell.walls[direction]:
-            return False
+    if cell.walls[direction]:
+        return False
 
-        return True
+    return True
 
 
 def bfs_algo(grid, entry, exit_):
@@ -254,7 +267,7 @@ def bfs_algo(grid, entry, exit_):
 
         if (x, y) == exit_:
             return parent
-    
+
         for d in DIRECTION:
             if can_move(grid, x, y, d):
                 dx, dy = DIRECTION[d]
@@ -265,6 +278,7 @@ def bfs_algo(grid, entry, exit_):
                     parent[(nx, ny)] = ((x, y), d)
                     queue.append((nx, ny))
     return None
+
 
 def reconstruct_path(parent, entry, exit_):
     path = []
@@ -280,12 +294,24 @@ def reconstruct_path(parent, entry, exit_):
 
 
 def shortest_path(grid, entry, exit_):
-    parent = bfs_algo(grid , entry, exit_)
+    parent = bfs_algo(grid, entry, exit_)
 
     if parent is None:
         return []
-    return  reconstruct_path(parent, entry, exit_)
+    return reconstruct_path(parent, entry, exit_)
 
+
+def path_to_coords(entry, path):
+    coords = [entry]
+    x, y = entry
+
+    for d in path:
+        dx, dy = DIRECTION[d]
+        x += dx
+        y += dy
+        coords.append((x, y))
+
+    return coords
 
 
 # grid = create_grid(20, 15)
@@ -309,5 +335,5 @@ print()
 # result = bfs_algo(grid, (0, 0), (2, 2))
 path = shortest_path(grid, (0, 0), (2, 2))
 print(path)
-# for k, v in result.items():
-#     print(f"{k}: {v}")
+coord = path_to_coords((0, 0), path)
+print(coord)
