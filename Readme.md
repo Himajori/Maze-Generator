@@ -140,12 +140,31 @@ SEED=42
 
 # Maze Generation Algorithm
 
-**Algorithm Used**
+**Algorithm Used: Recursive Backtracker (iterative Depth-First Search)**
 
+The maze is carved out of a fully-walled grid using an iterative depth-first search with an explicit stack:
+
+1. Start at the top-left cell, mark it visited, and push it onto the stack.
+2. While the stack is not empty, look at the cell on top of the stack:
+   * If it has any unvisited neighbors, pick one at random, remove the wall between the two cells, mark the neighbor visited, and push it onto the stack.
+   * If it has no unvisited neighbors, pop it off the stack (backtrack).
+3. The maze is complete once the stack empties and every reachable cell has been visited.
+
+For **non-perfect** mazes, an extra pass randomly removes a small percentage of the remaining walls after generation, introducing loops so more than one path exists between the entrance and exit.
+
+Once the maze is carved, the shortest route between entrance and exit is computed with a **Breadth-First Search (BFS)**, which guarantees the shortest path in an unweighted grid.
 
 Example:
 
-
+```text
+Stack: [(0,0)]
+(0,0) has unvisited neighbors E, S -> pick E -> wall removed -> push (1,0)
+Stack: [(0,0), (1,0)]
+(1,0) has unvisited neighbor S -> pick S -> wall removed -> push (1,1)
+Stack: [(0,0), (1,0), (1,1)]
+(1,1) has no unvisited neighbors -> pop -> backtrack to (1,0)
+...continues until the stack is empty and every cell has been visited.
+```
 
 ### Why this algorithm?
 

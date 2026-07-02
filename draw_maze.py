@@ -1,4 +1,7 @@
+import sys
+
 import cells as maze_module
+from config_parser import parse_config
 
 
 GREEN   = "\033[92m"
@@ -11,7 +14,7 @@ WHITE   = "\033[97m"
 RESET   = "\033[0m"
 
 
-def render_in_ascii(grid, path_coords, entry, exit_,
+def render_in_ascii(grid, path_coords, entry, exit_, maze,
                     color_42=RESET, color_wall=YELLOW):
 
     height = len(grid)
@@ -87,21 +90,19 @@ def create_maze(width, height, entry, exit_, seed, perfect, output_file):
 
     return maze, grid, path_coords
 
-maze, grid, coords = create_maze(
-    width=11,
-    height=9,
-    entry=(10, 8),
-    exit_=(0, 0),
-    seed=42,
-    perfect=True,
-    output_file="test.txt"
-)
-print(coords)
-render_in_ascii(
-    grid,
-    coords,
-    (10, 8),
-    (0, 0),
-    BLUE,
-    RED
-)
+
+if __name__ == "__main__":
+    config_path = sys.argv[1] if len(sys.argv) > 1 else "config.txt"
+    config = parse_config(config_path)
+
+    maze, grid, coords = create_maze(**config)
+    print(coords)
+    render_in_ascii(
+        grid,
+        coords,
+        config["entry"],
+        config["exit_"],
+        maze,
+        BLUE,
+        RED
+    )

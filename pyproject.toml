@@ -14,4 +14,4 @@ authors = [
 ]
 
 [tool.setuptools]
-py-modules = ["cells", "draw_maze"]
+py-modules = ["cells", "draw_maze", "config_parser"]
