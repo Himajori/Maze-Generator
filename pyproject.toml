@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "a-maze-ing"
+version = "0.1.0"
+description = "A configurable maze generator that creates valid random mazes, exports them via hexadecimal wall encoding, computes the shortest path, and renders them visually."
+readme = "Readme.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "bmanalla" },
+    { name = "jhima" },
+]
+
+[tool.setuptools]
+py-modules = ["cells", "draw_maze"]

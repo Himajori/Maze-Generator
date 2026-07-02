@@ -148,9 +148,9 @@ class MazeGenerator():
             for dx in range(3):
                 cell = grid[dy + y][dx + x]
 
-                if dx < 2 and cell.walls["E"]:
+                if dx < 2 and cell.walls["E"]: 
                     return False
-                if dy < 2 and cell.walls["N"]:
+                if dy < 2 and cell.walls["N"]: # duhet te jete cells.walls["S"] ketu apo jooo ?
                     return False
         return True
 
