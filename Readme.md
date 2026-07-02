@@ -223,11 +223,18 @@ The maze can be displayed using:
 
 * ASCII rendering in the terminal
 
-Available interactions include:
+After the maze is drawn, an interactive menu is shown:
 
-* Generate a new maze
-* Show or hide the shortest path
-* Change wall colors
+```text
+1) Generate a new maze
+2) Show/Hide the shortest path
+3) Change wall color
+4) Exit
+```
+
+* **Generate a new maze** re-runs generation with the same width, height, entry, and exit, producing a fresh random layout.
+* **Show/Hide the shortest path** toggles the solution overlay on the existing maze without regenerating it.
+* **Change wall color** lets you pick from a list of ANSI colors (red, green, yellow, blue, magenta, cyan, white) for the walls.
 
 ---
 

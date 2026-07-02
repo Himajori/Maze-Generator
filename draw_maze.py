@@ -2,6 +2,7 @@ import sys
 
 import cells as maze_module
 from config_parser import parse_config
+from menu import run_menu
 
 
 GREEN   = "\033[92m"
@@ -11,6 +12,8 @@ BLUE    = "\033[94m"
 MAGENTA = "\033[95m"
 CYAN    = "\033[96m"
 WHITE   = "\033[97m"
+NAVY    = "\033[38;2;0;0;128m"
+MAROON = "\033[38;2;128;0;0m"
 RESET   = "\033[0m"
 
 
@@ -91,18 +94,21 @@ def create_maze(width, height, entry, exit_, seed, perfect, output_file):
     return maze, grid, path_coords
 
 
+WALL_COLORS = {
+    "1": ("Red", RED),
+    "2": ("Green", GREEN),
+    "3": ("Yellow", YELLOW),
+    "4": ("Blue", BLUE),
+    "5": ("Magenta", MAGENTA),
+    "6": ("Cyan", CYAN),
+    "7": ("White", WHITE),
+    "8": ("Navy", NAVY),
+    "9": ("Maroon", MAROON)
+}
+
+
 if __name__ == "__main__":
     config_path = sys.argv[1] if len(sys.argv) > 1 else "config.txt"
     config = parse_config(config_path)
 
-    maze, grid, coords = create_maze(**config)
-    print(coords)
-    render_in_ascii(
-        grid,
-        coords,
-        config["entry"],
-        config["exit_"],
-        maze,
-        BLUE,
-        RED
-    )
+    run_menu(config, create_maze, render_in_ascii, WALL_COLORS, RED, BLUE)
