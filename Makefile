@@ -10,7 +10,7 @@ install:
 	$(PIP) install flake8 mypy
 
 run:
-	$(PYTHON) draw_maze.py $(CONFIG)
+	$(PYTHON) a_maze_ing.py $(CONFIG)
 
 debug:
 	$(PYTHON) -m pdb draw_maze.py $(CONFIG)

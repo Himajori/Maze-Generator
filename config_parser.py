@@ -18,7 +18,9 @@ def read_key_values(path):
 def check_required_keys(raw):
     missing = [key for key in REQUIRED_KEYS if key not in raw]
     if missing:
-        raise ValueError(f"missing required config key(s): {', '.join(missing)}")
+        raise ValueError(
+            f"missing required config key(s): "
+            f"{', '.join(missing)}")
 
 
 def parse_int(raw, key):
@@ -50,7 +52,9 @@ def parse_optional_int(raw, key):
 def check_in_bounds(key, coord, width, height):
     x, y = coord
     if not (0 <= x < width and 0 <= y < height):
-        raise ValueError(f"{key} {x},{y} falls outside the {width}x{height} grid")
+        raise ValueError(
+            f"{key} {x},{y} falls outside the "
+            f"{width}x{height} grid")
 
 
 def parse_config(path):

@@ -2,7 +2,6 @@ import random
 from collections import deque
 
 
-
 class MazeGenerator():
     def __init__(self, width, height, entry, exit_,
                  perfect, output_file, seed=None):
@@ -44,7 +43,6 @@ class MazeGenerator():
                 "W": True
             }
 
-
     def create_grid(self):
         grid = []
 
@@ -55,7 +53,6 @@ class MazeGenerator():
             grid.append(row)
 
         return grid
-
 
     def get_neighbors(self, cell, grid):
         neighbors = {}
@@ -73,11 +70,9 @@ class MazeGenerator():
 
         return neighbors
 
-
     def remove_wall(self, cell, neighbor, direction):
         cell.walls[direction] = False
         neighbor.walls[self.opposite[direction]] = False
-
 
     def get_unvisted_neighbors(self, cell, grid):
         neighbors = self.get_neighbors(cell, grid)
@@ -89,7 +84,6 @@ class MazeGenerator():
                 unvisted_neighbors[dir] = neighbor
 
         return unvisted_neighbors
-
 
     def dfs_algo(self, cell, grid):
         unvisited = self.get_unvisted_neighbors(cell, grid)
@@ -104,7 +98,6 @@ class MazeGenerator():
         neighbor.visited = True
 
         return neighbor
-
 
     def generate_maze(self, grid):
         stack = []
@@ -123,14 +116,12 @@ class MazeGenerator():
             else:
                 stack.pop()
 
-
     def all_cells_visited(self, grid):
         for row in grid:
             for cell in row:
                 if not cell.visited:
                     return False
         return True
-
 
     def has_3x3_open(self, grid):
         height = self.height
@@ -142,27 +133,24 @@ class MazeGenerator():
                     return True
         return False
 
-
     def is_3x3_open(self, grid, x, y):
         for dy in range(3):
             for dx in range(3):
                 cell = grid[dy + y][dx + x]
 
-                if dx < 2 and cell.walls["E"]: 
+                if dx < 2 and cell.walls["E"]:
                     return False
-                if dy < 2 and cell.walls["N"]: # duhet te jete cells.walls["S"] ketu apo jooo ?
+                if dy < 2 and cell.walls["N"]:
+                    # duhet te jete cells.walls["S"] ketu apo jooo ?
                     return False
         return True
-
 
     def is_fully_closed(self, cell):
         return all(cell.walls.values())
 
-
     def close_cell(self, grid, x, y):
         cell = grid[y][x]
         cell.visited = True
-
 
     def draw_4(self, grid, x, y):
         coords = [
@@ -176,7 +164,6 @@ class MazeGenerator():
         for dx, dy in coords:
             self.close_cell(grid, x + dx, y + dy)
 
-
     def draw_2(self, grid, x, y):
         coords = [
             (0, 0), (1, 0), (2, 0),
@@ -188,7 +175,6 @@ class MazeGenerator():
 
         for dx, dy in coords:
             self.close_cell(grid, x + dx, y + dy)
-
 
     def place_42_pattern(self, grid):
         height = self.height
@@ -208,7 +194,6 @@ class MazeGenerator():
 
         return True
 
-
     def encoded_cell(self, cell):
         value = 0
 
@@ -217,7 +202,6 @@ class MazeGenerator():
                 value |= bit
 
         return value
-
 
     def encoded_grid(self, grid):
         lines = []
@@ -230,17 +214,14 @@ class MazeGenerator():
 
         return lines
 
-
     def write_maze(self, file, grid):
         lines = self.encoded_grid(grid)
         for line in lines:
             file.write(line + "\n")
 
-
     def write_entry_exit_(self, file, entry, exit_):
         file.write(f"{entry[0]}, {entry[1]}\n")
         file.write(f"{exit_[0]}, {exit_[1]}\n")
-
 
     def write_output(self, grid, path):
         filename = self.output_file
@@ -253,7 +234,6 @@ class MazeGenerator():
             file.write("\n")
             file.write(" ".join(path) + "\n")
 
-
     def can_move(self, grid, x, y, direction):
         cell = grid[y][x]
 
@@ -261,7 +241,6 @@ class MazeGenerator():
             return False
 
         return True
-
 
     def bfs_algo(self, grid, entry, exit_):
         queue = deque()
@@ -288,7 +267,6 @@ class MazeGenerator():
                         queue.append((nx, ny))
         return None
 
-
     def reconstruct_path(self, parent, entry, exit_):
         path = []
         current = exit_
@@ -301,14 +279,12 @@ class MazeGenerator():
         path.reverse()
         return path
 
-
     def shortest_path(self, grid):
         parent = self.bfs_algo(grid, self.entry, self.exit_)
 
         if parent is None:
             return []
         return self.reconstruct_path(parent, self.entry, self.exit_)
-
 
     def path_to_coords(self, path):
         entry = self.entry
@@ -322,7 +298,6 @@ class MazeGenerator():
             coords.append((x, y))
 
         return coords
-
 
     def break_random_walls(self, grid, pro=0.1):
         for row in grid:
@@ -341,7 +316,6 @@ class MazeGenerator():
                             continue
                         if (cell.walls[direction] and random.random() < pro):
                             self.remove_wall(cell, neighbor, direction)
-
 
     def init_random(self):
         seed = self.seed

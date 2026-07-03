@@ -27,7 +27,13 @@ def regenerate(config, create_maze):
     return create_maze(**fresh_config)
 
 
-def run_menu(config, create_maze, render_in_ascii, wall_colors, wall_color, color_42):
+def run_menu(config,
+             create_maze,
+             render_in_ascii,
+             wall_colors,
+             wall_color,
+             color_42):
+    ...
     maze, grid, path_coords = create_maze(**config)
     show_path = True
 

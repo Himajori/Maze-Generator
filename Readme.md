@@ -368,8 +368,6 @@ The project followed an iterative development process:
 ## Algorithms
 
 * Recursive Backtracker
-* Prim's Algorithm
-* Kruskal's Algorithm
 * Breadth-First Search (BFS)
 * Depth-First Search (DFS)
 
