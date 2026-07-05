@@ -229,7 +229,8 @@ After the maze is drawn, an interactive menu is shown:
 1) Generate a new maze
 2) Show/Hide the shortest path
 3) Change wall color
-4) Exit
+4) Change 42 wall color
+5) Exit
 ```
 
 * **Generate a new maze** re-runs generation with the same width, height, entry, and exit, producing a fresh random layout.

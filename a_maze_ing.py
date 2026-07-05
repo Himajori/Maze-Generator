@@ -1,10 +1,6 @@
 import sys
 
-<<<<<<< HEAD
-import cells as maze_module
-=======
 import MazeGenerator as maze_module
->>>>>>> bc97e48 (42 color change and fixing)
 from config_parser import parse_config
 from menu import run_menu
 

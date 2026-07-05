@@ -45,10 +45,7 @@ class MazeGenerator():
                 "S": True,
                 "W": True
             }
-<<<<<<< HEAD:cells.py
-=======
     # Build a 2D list (height x width) of Cell objects, all walls up
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
 
     def create_grid(self):
         grid = []
@@ -61,11 +58,8 @@ class MazeGenerator():
 
         return grid
 
-<<<<<<< HEAD:cells.py
-=======
     # Return existing adjacent cells as {direction: cell}
     # Only includes directions that are inside the grid bounds
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def get_neighbors(self, cell, grid):
         neighbors = {}
         width = self.width
@@ -82,18 +76,12 @@ class MazeGenerator():
 
         return neighbors
 
-<<<<<<< HEAD:cells.py
-=======
     # Remove the wall between two adjacent cells on both sides
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def remove_wall(self, cell, neighbor, direction):
         cell.walls[direction] = False
         neighbor.walls[self.opposite[direction]] = False
 
-<<<<<<< HEAD:cells.py
-=======
     # Filter get_neighbors() to only cells not yet visited by DFS
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def get_unvisted_neighbors(self, cell, grid):
         neighbors = self.get_neighbors(cell, grid)
 
@@ -105,12 +93,9 @@ class MazeGenerator():
 
         return unvisted_neighbors
 
-<<<<<<< HEAD:cells.py
-=======
     # Run iterative DFS from grid[0][0] using an explicit stack
         # Keeps carving until every reachable cell has been visited
         # Cells pre-marked visited (42 pattern) are skipped automatically
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def dfs_algo(self, cell, grid):
         unvisited = self.get_unvisted_neighbors(cell, grid)
 
@@ -144,10 +129,7 @@ class MazeGenerator():
             else:
                 stack.pop()
 
-<<<<<<< HEAD:cells.py
-=======
     # Return True if every cell in the grid has been visit
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def all_cells_visited(self, grid):
         for row in grid:
             for cell in row:
@@ -155,11 +137,8 @@ class MazeGenerator():
                     return False
         return True
 
-<<<<<<< HEAD:cells.py
-=======
     # Scan the whole grid for any 3x3 block that is fully open
     # The maze constraint forbids corridors wider than 2 cells
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def has_3x3_open(self, grid):
         height = self.height
         width = self.width
@@ -170,11 +149,8 @@ class MazeGenerator():
                     return True
         return False
 
-<<<<<<< HEAD:cells.py
-=======
     # Check if the specific 3x3 block starting at (x,y) has no
     # internal East or South walls (fully open area)
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def is_3x3_open(self, grid, x, y):
         for dy in range(3):
             for dx in range(3):
@@ -187,10 +163,7 @@ class MazeGenerator():
                     return False
         return True
 
-<<<<<<< HEAD:cells.py
-=======
     # Return True if all 4 walls of this cell are still up
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def is_fully_closed(self, cell):
         return all(cell.walls.values())
 
@@ -198,10 +171,7 @@ class MazeGenerator():
         cell = grid[y][x]
         cell.visited = True
 
-<<<<<<< HEAD:cells.py
-=======
 # Pre-mark the cells that form the digit "4" starting at (x,y)
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def draw_4(self, grid, x, y):
         coords = [
             (0, 0),
@@ -214,10 +184,7 @@ class MazeGenerator():
         for dx, dy in coords:
             self.close_cell(grid, x + dx, y + dy)
 
-<<<<<<< HEAD:cells.py
-=======
 # Pre-mark the cells that form the digit "2" starting at (x,y)
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def draw_2(self, grid, x, y):
         coords = [
             (0, 0), (1, 0), (2, 0),
@@ -230,11 +197,8 @@ class MazeGenerator():
         for dx, dy in coords:
             self.close_cell(grid, x + dx, y + dy)
 
-<<<<<<< HEAD:cells.py
-=======
     # Center the "42" shape in the grid and call draw_4 + draw_2
     # Raises ValueError if the maze is too small to fit the pattern
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def place_42_pattern(self, grid):
         height = self.height
         width = self.width
@@ -253,11 +217,8 @@ class MazeGenerator():
 
         return True
 
-<<<<<<< HEAD:cells.py
-=======
     # Convert a cell's wall state to a single hex digit (0–F)
     # Each bit in the result represents one wall: N=1, E=2, S=4, W=8
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def encoded_cell(self, cell):
         value = 0
 
@@ -267,10 +228,7 @@ class MazeGenerator():
 
         return value
 
-<<<<<<< HEAD:cells.py
-=======
     # Encode every cell row by row, return as a list of hex strings
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def encoded_grid(self, grid):
         lines = []
         for row in grid:
@@ -282,28 +240,19 @@ class MazeGenerator():
 
         return lines
 
-<<<<<<< HEAD:cells.py
-=======
     # Write the encoded grid to an open file, one row per line
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def write_maze(self, file, grid):
         lines = self.encoded_grid(grid)
         for line in lines:
             file.write(line + "\n")
 
-<<<<<<< HEAD:cells.py
-=======
     # Write entry and exit coordinates to the output file
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def write_entry_exit_(self, file, entry, exit_):
         file.write(f"{entry[0]}, {entry[1]}\n")
         file.write(f"{exit_[0]}, {exit_[1]}\n")
 
-<<<<<<< HEAD:cells.py
-=======
     # Write the complete output file:
         # hex grid → blank line → entry → exit → space-separated path
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def write_output(self, grid, path):
         filename = self.output_file
         entry = self.entry
@@ -315,10 +264,7 @@ class MazeGenerator():
             file.write("\n")
             file.write(" ".join(path) + "\n")
 
-<<<<<<< HEAD:cells.py
-=======
     # Return True if moving this direction from (x,y) is not blocked by a wall
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def can_move(self, grid, x, y, direction):
         cell = grid[y][x]
 
@@ -327,12 +273,9 @@ class MazeGenerator():
 
         return True
 
-<<<<<<< HEAD:cells.py
-=======
     # BFS from entry to exit
     # Returns a parent dict: {cell: (previous_cell, direction)}
     # Used by reconstruct_path to trace the route back
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def bfs_algo(self, grid, entry, exit_):
         queue = deque()
         visited = set()
@@ -370,11 +313,8 @@ class MazeGenerator():
         path.reverse()
         return path
 
-<<<<<<< HEAD:cells.py
-=======
     # Call bfs_algo then reconstruct_path and return the direction list
     # Returns [] if no path exists
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def shortest_path(self, grid):
         parent = self.bfs_algo(grid, self.entry, self.exit_)
 
@@ -382,10 +322,7 @@ class MazeGenerator():
             return []
         return self.reconstruct_path(parent, self.entry, self.exit_)
 
-<<<<<<< HEAD:cells.py
-=======
     # Convert a direction list into a list of (x,y) coordinate tuples
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def path_to_coords(self, path):
         entry = self.entry
         coords = [entry]
@@ -399,12 +336,9 @@ class MazeGenerator():
 
         return coords
 
-<<<<<<< HEAD:cells.py
-=======
     # Randomly remove ~10% of remaining walls to introduce loops
     # Only runs when PERFECT=False — creates an imperfect maze
     # Skips fully closed cells (42 pattern) to preserve the shape
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def break_random_walls(self, grid, pro=0.1):
         for row in grid:
             for cell in row:
@@ -423,10 +357,7 @@ class MazeGenerator():
                         if (cell.walls[direction] and random.random() < pro):
                             self.remove_wall(cell, neighbor, direction)
 
-<<<<<<< HEAD:cells.py
-=======
     # Seed Python's random module so generation is reproducible
->>>>>>> bc97e48 (42 color change and fixing):MazeGenerator.py
     def init_random(self):
         seed = self.seed
         random.seed(seed)
