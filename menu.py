@@ -52,7 +52,8 @@ def run_menu(config,
         print("\n1) Generate a new maze")
         print(f"2) {'Hide' if show_path else 'Show'} the shortest path")
         print("3) Change wall color")
-        print("4) Exit")
+        print("4) Change 42 wall color")
+        print("5) Exit")
 
         choice = prompt("> ")
 
@@ -65,6 +66,10 @@ def run_menu(config,
             if new_color is not None:
                 wall_color = new_color
         elif choice == "4":
+            new_color = choose_color(wall_colors)
+            if new_color is not None:
+                color_42 = new_color
+        elif choice == "5":
             break
         else:
             print("Invalid choice.")

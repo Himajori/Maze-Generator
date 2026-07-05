@@ -278,38 +278,51 @@ The file contains:
 ---
 
 #  Makefile Commands
-
-```bash
-make install
-```
-
-Install dependencies.
-
-```bash
-make run
-```
-
-Run the application.
-
-```bash
-make debug
-```
-
-Run in debug mode.
-
-```bash
-make lint
-```
-
-Run Flake8 and MyPy.
-
-```bash
-make clean
-```
-
-Remove temporary files and caches.
+ 
+| Command           | Description                              |
+|-------------------|------------------------------------------|
+| `make install`    | Create venv, install package and linters |
+| `make run`        | Run the program with default config      |
+| `make debug`      | Run in pdb debug mode                    |
+| `make lint`       | Run flake8 + mypy with standard flags    |
+| `make lint-strict`| Run mypy with `--strict`                 |
+| `make clean`      | Remove `__pycache__`, `.mypy_cache`, venv|
+ 
 
 ---
+
+
+## How It Looks
+ 
+### Terminal Rendering
+ 
+The maze is drawn directly in the terminal using ASCII block characters. Walls are rendered as solid blocks, open corridors as spaces. Entry is marked in **magenta**, exit in **red**.
+
+## Default View
+
+![Maze without 42 pattern](photo/image.png)
+*Basic maze rendering — no 42 pattern visible*
+
+### With 42 Pattern
+
+![Maze with 42 pattern](photo/image-1.png)
+*The "42" shape appears in the center, formed by fully closed cells*
+
+### Shortest Path
+
+![Maze with path hidden](photo/image-2.png)
+*Path hidden — default state after generation*
+
+### Color Customization
+
+![Color picker for 42 wall](photo/image-3.png)
+*Menu prompt to choose a color for the 42 pattern walls*
+
+![42 wall color changed](photo/image-4.png)
+*42 pattern rendered in the selected color*
+
+![Wall color changed](photo/image-5.png)
+*Main maze walls with a different color applied*
 
 #  Testing
 

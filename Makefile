@@ -13,7 +13,7 @@ run:
 	$(PYTHON) a_maze_ing.py $(CONFIG)
 
 debug:
-	$(PYTHON) -m pdb draw_maze.py $(CONFIG)
+	$(PYTHON) -m pdb a_maze_ing.py $(CONFIG)
 
 clean:
 	rm -rf __pycache__ mazegen/__pycache__ .mypy_cache $(VENV) maze.txt #deleting env and cache files
