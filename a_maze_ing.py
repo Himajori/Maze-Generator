@@ -1,4 +1,6 @@
 import sys
+import os
+from typing import TypeAlias
 
 import MazeGenerator as maze_module
 from config_parser import parse_config
@@ -16,13 +18,49 @@ NAVY = "\033[38;2;0;0;128m"
 MAROON = "\033[38;2;128;0;0m"
 RESET = "\033[0m"
 
+MazeResult: TypeAlias = tuple[
+    maze_module.MazeGenerator,
+    list[list[maze_module.MazeGenerator.Cell]],
+    list[tuple[int, int]],
+]
 
-def render_in_ascii(grid, path_coords, entry, exit_, maze,
-                    color_42=RESET, color_wall=YELLOW):
+
+def check_terminal_size(maze_width: int, maze_height: int) -> bool:
+    # Each cell is 3 chars wide + 1 border = 4; plus 1 for the leftmost border
+    needed_cols = maze_width * 4 + 1
+    # Each cell row has a separator row below it, plus top and bottom borders
+    needed_rows = maze_height * 2 + 1
+
+    try:
+        term = os.get_terminal_size()
+        if needed_cols > term.columns or needed_rows > term.lines:
+            print(
+                f"\033[91mWarning: maze needs {needed_cols}×{needed_rows} "
+                f"characters but terminal is {term.columns}×{term.lines}.\n"
+                f"Resize your terminal or reduce WIDTH/HEIGHT in config.txt"
+                f"\033[0m"
+            )
+            return False
+    except OSError:
+        # Can't determine terminal size (e.g. piped output) — skip the check
+        pass
+    return True
+
+
+def render_in_ascii(
+    grid: list[list[maze_module.MazeGenerator.Cell]],
+    path_coords: list[tuple[int, int]],
+    entry: tuple[int, int],
+    exit_: tuple[int, int],
+    maze: maze_module.MazeGenerator,
+    color_42: str = RESET,
+    color_wall: str = YELLOW,
+) -> None:
 
     height = len(grid)
     width = len(grid[0])
 
+    check_terminal_size(width, height)
     print(
         f"{color_wall}╔{RESET}"
         + f"{color_wall}═══╦{RESET}" * (width - 1)
@@ -72,8 +110,15 @@ def render_in_ascii(grid, path_coords, entry, exit_, maze,
     )
 
 
-def create_maze(width, height, entry, exit_, seed, perfect, output_file):
-
+def create_maze(
+    width: int,
+    height: int,
+    entry: tuple[int, int],
+    exit_: tuple[int, int],
+    seed: int | None,
+    perfect: bool,
+    output_file: str,
+) -> MazeResult:
     maze = maze_module.MazeGenerator(
         width,
         height,
@@ -91,7 +136,6 @@ def create_maze(width, height, entry, exit_, seed, perfect, output_file):
 
     if seed is not None:
         maze.init_random()
-
     maze.generate_maze(grid)
 
     if not perfect:
@@ -123,6 +167,20 @@ WALL_COLORS = {
 
 if __name__ == "__main__":
     config_path = sys.argv[1] if len(sys.argv) > 1 else "config.txt"
-    config = parse_config(config_path)
+    try:
+        config = parse_config(config_path)
+    except FileNotFoundError:
+        print(f"Error: config file '{config_path}' not found")
+        sys.exit(1)
+    except ValueError as e:
+        print(f"Error: {e}")
+        sys.exit(1)
 
-    run_menu(config, create_maze, render_in_ascii, WALL_COLORS, RED, GREEN)
+    try:
+        run_menu(config, create_maze, render_in_ascii, WALL_COLORS, RED, GREEN)
+    except ValueError as e:
+        print(f"Error during maze generation: {e}")
+        sys.exit(1)
+    except KeyboardInterrupt:
+        print("\nExiting.")
+        sys.exit(0)

@@ -1,15 +1,18 @@
-def clear_screen():
+from typing import Any, Callable
+
+
+def clear_screen() -> None:
     print("\033c", end="")
 
 
-def prompt(message):
+def prompt(message: str) -> str:
     try:
         return input(message).strip()
     except (EOFError, KeyboardInterrupt):
         return "4"
 
 
-def choose_color(colors):
+def choose_color(colors: dict[str, tuple[str, str]]) -> str | None:
     print("\nAvailable colors:")
     for key, (name, _) in colors.items():
         print(f"  {key}) {name}")
@@ -21,18 +24,19 @@ def choose_color(colors):
     return colors[choice][1]
 
 
-def regenerate(config, create_maze):
+def regenerate(config: dict[str, Any], create_maze: Callable[..., Any]) -> Any:
     fresh_config = dict(config)
-    fresh_config["seed"] = None
+    fresh_config["seed"] = 42
     return create_maze(**fresh_config)
 
 
-def run_menu(config,
-             create_maze,
-             render_in_ascii,
-             wall_colors,
-             wall_color,
-             color_42):
+def run_menu(
+            config: dict[str, Any],
+            create_maze: Callable[..., Any],
+            render_in_ascii: Callable[..., None],
+            wall_colors: dict[str, tuple[str, str]],
+            wall_color: str,
+            color_42: str,) -> None:
     ...
     maze, grid, path_coords = create_maze(**config)
     show_path = True
