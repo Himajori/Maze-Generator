@@ -62,7 +62,21 @@ The project combines concepts from:
 # Project Structure
 
 ```text
-#to be continued 
+├── a_maze_ing.py
+├── config_parser.py
+├── config.txt
+├── Makefile
+├── MazeGenerator.py
+├── menu.py
+├── photo
+│   ├── image-1.png
+│   ├── image-2.png
+│   ├── image-3.png
+│   ├── image-4.png
+│   ├── image-5.png
+│   └── image.png
+├── pyproject.toml
+└── Readme.md
 ```
 
 ---
@@ -229,8 +243,7 @@ After the maze is drawn, an interactive menu is shown:
 1) Generate a new maze
 2) Show/Hide the shortest path
 3) Change wall color
-4) Change 42 wall color
-5) Exit
+4) Exit
 ```
 
 * **Generate a new maze** re-runs generation with the same width, height, entry, and exit, producing a fresh random layout.
