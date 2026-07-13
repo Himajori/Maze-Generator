@@ -26,7 +26,6 @@ def choose_color(colors: dict[str, tuple[str, str]]) -> str | None:
 
 def regenerate(config: dict[str, Any], create_maze: Callable[..., Any]) -> Any:
     fresh_config = dict(config)
-    fresh_config["seed"] = 42
     return create_maze(**fresh_config)
 
 

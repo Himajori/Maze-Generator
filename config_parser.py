@@ -4,7 +4,7 @@ MIN_WIDTH = 2
 MIN_HEIGHT = 2
 
 MAX_WIDTH = 100
-MAX_HEIGHT = 100
+MAX_HEIGHT = 30
 
 
 def read_key_values(path: str) -> dict[str, str]:
