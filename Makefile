@@ -15,8 +15,14 @@ run:
 debug:
 	$(PYTHON) -m pdb a_maze_ing.py $(CONFIG)
 
+build:
+	$(PIP) install build
+	$(PYTHON) -m build
+
 clean:
-	rm -rf __pycache__ mazegen/__pycache__ .mypy_cache $(VENV) maze.txt #deleting env and cache files
+	rm -rf __pycache__ mazegen/__pycache__ \
+		.mypy_cache build dist *.egg-info \
+		$(VENV) maze.txt
 
 lint: #check code style and type hints
 	$(PYTHON) -m flake8 .
