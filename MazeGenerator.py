@@ -236,6 +236,14 @@ class MazeGenerator():
         start_x = (width - pattern_width) // 2
         start_y = (height - pattern_height) // 2
 
+        # On even widths, dead-centering the pattern lands the grid's exact
+        # centre cell on a sealed "2" cell, so a non-perfect maze can never
+        # open its centre (a Pac-Man-usability requirement). Column 3 of the
+        # pattern is always an empty gap, so nudging one cell right moves the
+        # centre column there instead, regardless of height's parity.
+        if width % 2 == 0:
+            start_x += 1
+
         self.draw_4(grid, start_x, start_y)
         self.draw_2(grid, start_x + 4, start_y)
 
