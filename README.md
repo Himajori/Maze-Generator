@@ -5,6 +5,11 @@
 > A configurable maze generator written in **Python 3** that creates valid random mazes, exports them using a hexadecimal wall representation, computes the shortest path, and provides a visual representation of the generated maze.
 
 ---
+# License
+
+This project is distributed under the MIT License.
+
+See `LICENSE.md` for the complete license text.
 
 # Description
 
@@ -381,7 +386,144 @@ The project followed an iterative development process:
 * VS Code / PyCharm
 * Python Virtual Environment
 
+# Team & Project Management
+
+## Team Members
+
+### bmanalla
+
+Primary responsibilities:
+
+- Overall project architecture
+- Maze generation algorithm implementation
+- Configuration parser
+- Hexadecimal export format
+- Testing and debugging
+- Documentation and repository organization
+
+### jhima
+
+Primary responsibilities:
+
+- Maze visualization
+- Interactive terminal menu
+- Shortest path visualization
+- User interface improvements
+- Testing and feature validation
+- Documentation review
+
+Although responsibilities were divided, all major implementation decisions were discussed together, and both members participated in reviewing and testing each other's work before integrating changes.
+
 ---
+
+## Initial Planning
+
+At the beginning of the project, we divided the work into several milestones:
+
+1. Understand the project requirements.
+2. Design the maze data structure.
+3. Implement maze generation.
+4. Implement configuration parsing.
+5. Implement maze export.
+6. Implement shortest path computation.
+7. Develop the terminal visualization.
+8. Test edge cases.
+9. Prepare reusable package.
+10. Write project documentation.
+
+The initial goal was to first complete a functional maze generator and then progressively add visualization and usability improvements.
+
+---
+
+## How the Planning Evolved
+
+As development progressed, we realized that several components depended heavily on one another.
+
+For example:
+
+- The visualization required changes to the maze representation.
+- Supporting reproducible generation using random seeds required adjustments to the generation pipeline.
+- Implementing both perfect and non-perfect maze generation introduced additional validation logic.
+- The interactive terminal menu was expanded after the core functionality was completed to improve usability.
+
+Rather than following the original plan strictly, development became iterative. Features were implemented, tested, refined, and sometimes redesigned before moving on to the next milestone.
+
+Regular testing throughout development helped identify design issues early and reduced the amount of rework required later.
+
+---
+
+## What Worked Well
+
+Several aspects of the project were particularly successful:
+
+- Clear modular architecture.
+- Separation between maze generation, visualization, configuration parsing, and export.
+- Reusable `MazeGenerator` class.
+- Configuration-driven design.
+- Consistent use of type hints and static analysis.
+- Incremental testing after each completed feature.
+- Good collaboration during debugging and code reviews.
+
+---
+
+## What Could Be Improved
+
+If the project were developed again, several improvements could be made:
+
+- Add automated unit tests using `pytest`.
+- Support multiple maze generation algorithms (Prim's, Kruskal's, Wilson's, etc.).
+- Provide graphical rendering in addition to ASCII output.
+- Improve customization options for colors and visualization.
+- Benchmark maze generation performance for larger mazes.
+- Add continuous integration (CI) using GitHub Actions.
+- Expand the reusable package documentation with additional examples.
+
+---
+
+## Development Tools
+
+The following tools were used during development:
+
+### Version Control
+
+- Git
+- GitHub
+
+### Development Environment
+
+- Visual Studio Code
+- Python Virtual Environment (`venv`)
+
+### Code Quality
+
+- Flake8
+- MyPy
+
+### Debugging
+
+- Python Debugger (`pdb`)
+- Print-based debugging during early development
+
+### Project Management
+
+- GitHub Issues (task tracking)
+- Feature branches with pull-request style reviews before merging
+
+### Documentation
+
+- Markdown
+- Python Docstrings (PEP 257)
+
+### Artificial Intelligence
+
+Artificial Intelligence tools were used as development assistants for:
+
+- Reviewing algorithms
+- Explaining Python concepts
+- Debugging assistance
+- Documentation drafting
+- README organization
+- Refactoring suggestions
 
 # Resources
 
