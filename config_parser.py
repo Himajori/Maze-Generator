@@ -1,10 +1,10 @@
-REQUIRED_KEYS = ("WIDTH", "HEIGHT", "ENTRY", "EXIT", "OUTPUT_FILE")
+REQUIRED_KEYS = ("WIDTH", "HEIGHT", "ENTRY", "EXIT", "OUTPUT_FILE", "PERFECT")
 
 MIN_WIDTH = 2
 MIN_HEIGHT = 2
 
 MAX_WIDTH = 100
-MAX_HEIGHT = 30
+MAX_HEIGHT = 100
 
 
 def read_key_values(path: str) -> dict[str, str]:
@@ -46,8 +46,17 @@ def parse_coord(raw: dict[str, str], key: str) -> tuple[int, int]:
         raise ValueError(f"{key} must contain integer coordinates")
 
 
-def parse_bool(raw: dict[str, str], key: str, default: bool) -> bool:
-    return raw.get(key, str(default)).strip().lower() == "true"
+def parse_bool(raw: dict[str, str], key: str) -> bool:
+    # PERFECT is a required, strictly-typed boolean: only the exact
+    # values "True" or "False" are accepted. Anything else (empty,
+    # "yes"/"no", "1"/"0", or arbitrary text) is an error — there is
+    # no silent fallback to a default.
+    value = raw[key].strip()
+    if value == "True":
+        return True
+    if value == "False":
+        return False
+    raise ValueError(f"{key} must be either True or False")
 
 
 def parse_optional_int(raw: dict[str, str], key: str) -> int | None:
@@ -177,7 +186,7 @@ def parse_config(
         "entry": entry,
         "exit_": exit_,
         "seed": parse_optional_int(raw, "SEED"),
-        "perfect": parse_bool(raw, "PERFECT", default=True),
+        "perfect": parse_bool(raw, "PERFECT"),
         "output_file": raw["OUTPUT_FILE"],
 
     }

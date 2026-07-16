@@ -25,8 +25,10 @@ def choose_color(colors: dict[str, tuple[str, str]]) -> str | None:
 
 
 def regenerate(config: dict[str, Any], create_maze: Callable[..., Any]) -> Any:
-    fresh_config = dict(config)
-    return create_maze(**fresh_config)
+    # Reuse the config's own seed: if SEED was set in config.txt, every
+    # regeneration must reproduce the exact same maze; if it was omitted
+    # (seed is None), each regeneration should be freshly randomized.
+    return create_maze(**config)
 
 
 def run_menu(

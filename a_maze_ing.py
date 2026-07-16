@@ -140,7 +140,7 @@ def create_maze(
 
     if not perfect:
         maze.break_random_walls(grid)
-        maze.reduce_dead_ends(grid, max_dead_ends=2) 
+        maze.reduce_dead_ends(grid, max_dead_ends=2)
 
     path = maze.shortest_path(grid)
     path_coords = maze.path_to_coords(path)

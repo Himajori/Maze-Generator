@@ -183,7 +183,6 @@ class MazeGenerator():
                 if dx < 2 and cell.walls["E"]:
                     return False
                 if dy < 2 and cell.walls["N"]:
-                    # duhet te jete cells.walls["S"] ketu apo jooo ?
                     return False
         return True
 
@@ -424,7 +423,7 @@ class MazeGenerator():
     # A dead-end has exactly 1 open passage and 3 walls still up
     def is_dead_end(self, cell: Cell) -> bool:
         return self.count_open_walls(cell) == 1
- 
+
     # Collect every non-42-pattern dead-end cell in the grid
     def get_dead_ends(self, grid: list[list[Cell]]) -> list[Cell]:
         dead_ends = []
@@ -435,7 +434,7 @@ class MazeGenerator():
                 if self.is_dead_end(cell):
                     dead_ends.append(cell)
         return dead_ends
- 
+
     # Temporarily open a wall, check for 3x3 open area, then restore
     def would_create_3x3_open(
         self,
@@ -449,7 +448,7 @@ class MazeGenerator():
         cell.walls[direction] = True
         neighbor.walls[self.opposite[direction]] = True
         return result
- 
+
     # Open walls on dead-end cells until at most max_dead_ends remain.
     # Skips 42-pattern cells and walls that would create a 3x3 open area.
     def reduce_dead_ends(
@@ -461,15 +460,15 @@ class MazeGenerator():
             dead_ends = self.get_dead_ends(grid)
             if len(dead_ends) <= max_dead_ends:
                 break
- 
+
             random.shuffle(dead_ends)
- 
+
             progress = False
             for cell in dead_ends:
                 neighbors = self.get_neighbors(cell, grid)
                 dirs = list(neighbors.keys())
                 random.shuffle(dirs)
- 
+
                 for direction in dirs:
                     neighbor = neighbors[direction]
                     # never open into a 42-pattern cell
@@ -479,17 +478,17 @@ class MazeGenerator():
                     if not cell.walls[direction]:
                         continue
                     # skip if it would create a forbidden 3x3 open area
-                    if self.would_create_3x3_open(grid, cell, neighbor,
-                                                   direction):
+                    if self.would_create_3x3_open(
+                            grid, cell, neighbor, direction
+                    ):
                         continue
                     self.remove_wall(cell, neighbor, direction)
                     progress = True
                     break
- 
+
             # If nothing could be opened this pass, stop to avoid infinite loop
             if not progress:
                 break
-
 
     # Seed Python's random module so generation is reproducible
     def init_random(self) -> None:
